@@ -371,7 +371,8 @@ int main()
 
       deletedata(y);
       break;
-
+      
+    default:
       cout << "Salah";
     }
   } while (pil < 6);

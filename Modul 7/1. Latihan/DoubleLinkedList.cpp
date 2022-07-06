@@ -253,6 +253,7 @@ int main()
       caridata(y);
       break;
 
+    default:
       cout << "Salah";
     }
   } while (pil < 6);

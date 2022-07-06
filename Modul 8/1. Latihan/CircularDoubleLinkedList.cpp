@@ -7,6 +7,7 @@
 using namespace std;
 
 int x, y;
+int j = 0;
 
 typedef struct node
 {
@@ -21,6 +22,7 @@ void inisialisasi()
 {
   FIRST = NULL;
 }
+
 void buatsimpul(int x)
 {
   P = (simpul *)malloc(sizeof(simpul));
@@ -40,8 +42,9 @@ void simpulawal()
   {
     FIRST = P;
     LAST = P;
-    LAST->RIGHT = NULL;
-    LAST->LEFT = NULL;
+    P->RIGHT = P;
+    P->LEFT = P;
+    j++;
   }
 }
 
@@ -50,9 +53,10 @@ void insertkanan()
   if (LAST != NULL)
   {
     LAST->RIGHT = P;
-    P->LEFT = LAST;
     LAST = P;
-    P->RIGHT = NULL;
+    LAST->RIGHT = FIRST;
+    FIRST->LEFT = LAST;
+    j++;
   }
   else
   {
@@ -65,9 +69,10 @@ void insertkiri()
   if (FIRST != NULL)
   {
     P->RIGHT = FIRST;
-    FIRST->LEFT = P;
     FIRST = P;
-    P->LEFT = NULL;
+    FIRST->LEFT = LAST;
+    LAST->RIGHT = FIRST;
+    j++;
   }
   else
   {
@@ -88,6 +93,7 @@ void inserttengah(int y)
     P->LEFT = LAST;
     LAST = P;
     P->RIGHT = NULL;
+    j++;
   }
   else
   {
@@ -95,28 +101,45 @@ void inserttengah(int y)
     P->LEFT = Q->RIGHT;
     Q->RIGHT->LEFT = P;
     Q->RIGHT = P;
+    j++;
   }
 }
 
 void deletekanan()
 {
-  if (FIRST == LAST)
+  LAST = LAST->LEFT;
+  free(LAST->RIGHT);
+  LAST->RIGHT = FIRST;
+  FIRST->LEFT = LAST;
+  j--;
+}
+
+void deletekiri()
+{
+  FIRST = FIRST->RIGHT;
+  free(FIRST->LEFT);
+  FIRST->LEFT = LAST;
+  LAST->RIGHT = FIRST;
+  j--;
+}
+
+void deletetengah(int y)
+{
+  Q = FIRST;
+  while (Q->info != y)
   {
-    FIRST = NULL;
-    LAST = NULL;
+    Q = Q->RIGHT;
   }
-  else
-  {
-    LAST = LAST->LEFT;
-    free(LAST->RIGHT);
-    LAST->RIGHT = NULL;
-  }
+  Q->RIGHT = Q->RIGHT->RIGHT;
+  free(Q->RIGHT->LEFT);
+  Q->RIGHT->LEFT = Q;
+  j--;
 }
 
 void tampil()
 {
   cetak = FIRST;
-  while (cetak != NULL)
+  for (int k = 0; k < j - 1; k++)
   {
     cout << cetak->info << " ";
     cetak = cetak->RIGHT;
@@ -129,14 +152,16 @@ int main()
   inisialisasi();
   do
   {
-    system("cls");
+    // system("cls");
     cout << endl
          << endl
          << "1. Insert Kanan" << endl;
     cout << "2. Insert Kiri" << endl;
     cout << "3. Insert Tengah" << endl;
     cout << "4. delete kanan" << endl;
-    cout << "5. Tampil" << endl;
+    cout << "5. delete kiri" << endl;
+    cout << "6. delete tengah" << endl;
+    cout << "7. Tampil" << endl;
     cout << "Pilih (1-3):";
     cin >> pil;
     switch (pil)
@@ -168,10 +193,18 @@ int main()
       deletekanan();
       break;
     case 5:
+      deletekiri();
+      break;
+    case 6:
+      cout << "Cari Nilai Tertentu";
+      cin >> y;
+      deletetengah(y);
+      break;
+    case 7:
       tampil();
       break;
     default:
       cout << "Salah";
     }
-  } while (pil < 6);
+  } while (pil != 6);
 }
