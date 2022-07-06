@@ -6,12 +6,22 @@
 
 using namespace std;
 
+struct Buku
+{
+  int NO;
+  string judul;
+  string penulis;
+  float harga;
+};
+
 int x, y;
+float h;
+string p, jud;
 int j = 0;
 
 struct node
 {
-  int info;
+  Buku info;
   struct node *LEFT, *RIGHT;
 };
 
@@ -23,12 +33,15 @@ void inisialisasi()
   FIRST = NULL;
 }
 
-void buatsimpul(int x)
+void buatsimpul(int x, string jud, string p, float h)
 {
   P = (simpul *)malloc(sizeof(simpul));
   if (P != NULL)
   {
-    P->info = x;
+    P->info.NO = x;
+    P->info.judul = jud;
+    P->info.penulis = p;
+    P->info.harga = h;
   }
   else
   {
@@ -83,7 +96,7 @@ void insertkiri()
 void insertAfter(int y)
 {
   Q = FIRST;
-  while (Q->info != y)
+  while (Q->info.NO != y)
   {
     Q = Q->RIGHT;
   }
@@ -108,7 +121,7 @@ void insertAfter(int y)
 void insertBefore(int y)
 {
   Q = FIRST;
-  while (Q->info != y)
+  while (Q->info.NO != y)
   {
     Q = Q->RIGHT;
   }
@@ -149,7 +162,7 @@ void deletekiri()
 void deletetengah(int y)
 {
   Q = FIRST;
-  while (Q->info != y)
+  while (Q->info.NO != y)
   {
     Q = Q->RIGHT;
   }
@@ -165,7 +178,7 @@ void updatedata(int y)
   bool found = false;
   while (!found)
   {
-    if (Q->info == y)
+    if (Q->info.NO == y)
     {
       found = true;
     }
@@ -177,11 +190,22 @@ void updatedata(int y)
 
   if (found)
   {
-    cout << "Found : " << Q->info << endl;
+    cout << "Found : [";
+    cout << Q->info.NO << ", ";
+    cout << Q->info.judul << ", ";
+    cout << Q->info.penulis << ", ";
+    cout << Q->info.harga << "]";
     cout << endl;
 
     cout << "Update data : " << endl;
-    cin >> Q->info;
+    cout << "Judul : ";
+    cin >> Q->info.judul;
+
+    cout << "Penulis : ";
+    cin >> Q->info.penulis;
+
+    cout << "Harga : ";
+    cin >> Q->info.harga;
 
     cout << endl
          << "Data Updated" << endl;
@@ -200,7 +224,7 @@ void searchdata(int y)
   bool found = false;
   while (!found)
   {
-    if (Q->info == y)
+    if (Q->info.NO == y)
     {
       found = true;
     }
@@ -212,7 +236,12 @@ void searchdata(int y)
 
   if (found)
   {
-    cout << "Found : " << Q->info << endl;
+    cout << "Found : [";
+    cout << Q->info.NO << ", ";
+    cout << Q->info.judul << ", ";
+    cout << Q->info.penulis << ", ";
+    cout << Q->info.harga << "]";
+    cout << endl;
   }
   else
   {
@@ -227,7 +256,12 @@ void tampil()
   cetak = FIRST;
   for (int k = 0; k < j - 1; k++)
   {
-    cout << cetak->info << " ";
+    cout << "[";
+    cout << cetak->info.NO << ", ";
+    cout << cetak->info.judul << ", ";
+    cout << cetak->info.penulis << ", ";
+    cout << cetak->info.harga << "]";
+    cout << endl;
     cetak = cetak->RIGHT;
   }
 }
@@ -257,25 +291,55 @@ int main()
     switch (pil)
     {
     case 1:
-      cout << "Masukkan Nilai :";
+      cout << "Masukkan NO : ";
       cin >> x;
-      buatsimpul(x);
+
+      cout << "Masukkan Judul : ";
+      cin >> jud;
+
+      cout << "Masukkan Penulis : ";
+      cin >> p;
+
+      cout << "Masukkan Harga : ";
+      cin >> h;
+      buatsimpul(x, jud, p, h);
+
       simpulawal();
       insertkanan();
       break;
 
     case 2:
-      cout << "Masukkan Nilai :";
+      cout << "Masukkan NO : ";
       cin >> x;
-      buatsimpul(x);
+
+      cout << "Masukkan Judul : ";
+      cin >> jud;
+
+      cout << "Masukkan Penulis : ";
+      cin >> p;
+
+      cout << "Masukkan Harga : ";
+      cin >> h;
+      buatsimpul(x, jud, p, h);
+      
       simpulawal();
       insertkiri();
       break;
 
     case 3:
-      cout << "Masukkan Nilai :";
+      cout << "Masukkan NO : ";
       cin >> x;
-      buatsimpul(x);
+
+      cout << "Masukkan Judul : ";
+      cin >> jud;
+
+      cout << "Masukkan Penulis : ";
+      cin >> p;
+
+      cout << "Masukkan Harga : ";
+      cin >> h;
+      buatsimpul(x, jud, p, h);
+      
       cout << "Masukkan Nilai dicari :";
       cin >> y;
       simpulawal();
@@ -283,9 +347,19 @@ int main()
       break;
 
     case 4:
-      cout << "Masukkan Nilai :";
+      cout << "Masukkan NO : ";
       cin >> x;
-      buatsimpul(x);
+
+      cout << "Masukkan Judul : ";
+      cin >> jud;
+
+      cout << "Masukkan Penulis : ";
+      cin >> p;
+
+      cout << "Masukkan Harga : ";
+      cin >> h;
+      buatsimpul(x, jud, p, h);
+      
       cout << "Masukkan Nilai dicari :";
       cin >> y;
       simpulawal();
